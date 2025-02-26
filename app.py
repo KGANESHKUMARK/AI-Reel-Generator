@@ -10,6 +10,7 @@ razorpay_client = razorpay.Client(auth=("YOUR_RAZORPAY_KEY", "YOUR_RAZORPAY_SECR
 # Stripe Configuration
 app.config['STRIPE_SECRET_KEY'] = "YOUR_STRIPE_SECRET_KEY"
 stripe.api_key = app.config['STRIPE_SECRET_KEY']
+YOUR_LOCAL_IP = '192.168.37.146' #'127.0.0.1'
 
 @app.route('/')
 def welcome():
@@ -42,8 +43,8 @@ def stripe_payment():
                 'quantity': 1,
             }],
             mode='payment',
-            success_url='http://127.0.0.1:5000/success',
-            cancel_url='http://127.0.0.1:5000/cancel',
+            success_url='http://'+YOUR_LOCAL_IP+':5000/success',
+            cancel_url='http://1'+YOUR_LOCAL_IP+':5000/cancel',
         )
         return jsonify({'id': session.id})
     except Exception as e:
@@ -63,4 +64,4 @@ def get_data():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(debug=True, host=YOUR_LOCAL_IP, port=5000)
